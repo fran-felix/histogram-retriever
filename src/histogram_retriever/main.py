@@ -3,6 +3,7 @@ from PIL import Image
 import numpy as np
 import histogram_retriever.myimage as myimage
 
+
 def tar() -> None:
     path = "/home/francisco/histogram-retriever/Vistex"
     files = [f for f in os.listdir(path) if f.endswith('png')]
