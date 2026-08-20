@@ -10,8 +10,6 @@ class MyImage:
     self.histogram = np.zeros((256, 3), dtype=int)
     self.hist_alt = np.zeros((256, 3), dtype=int)
 
-  def test_print(self):
-    print(self.img)
 
   def make_histogram(self):
     print(np.shape(self.img))
