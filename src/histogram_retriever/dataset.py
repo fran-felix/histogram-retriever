@@ -14,6 +14,7 @@ class MyDataset:
     self.path = path
     self.path_info = path_info
 
+  def build_dataset(self):
     files = [f for f in os.listdir(self.path) if f.endswith('png')]
     n = len(files)
 
@@ -42,3 +43,4 @@ class MyDataset:
 
 
 data = MyDataset()
+data.build_dataset()
