@@ -27,7 +27,6 @@ class MyDataset:
     files = [f for f in os.listdir(self.path) if f.endswith('png')]
     n = len(files)
 
-    '''
     for i in range(n):
       path_img = os.path.join(self.path, files[i])
       img = MyImage(name=files[i],path=path_img)
@@ -48,7 +47,6 @@ class MyDataset:
           f.write("\n")
 
         f.write("\n")
-    '''
 
   def build_likeness_array(self):
     files = [f for f in os.listdir(self.path) if f.endswith('png')]
@@ -60,13 +58,18 @@ class MyDataset:
       img = MyImage(name=files[i],path=path_img)
 
       # Images must have same shape (RBG and RGB, RGBA and RGBA)
+      if img.img.shape[2] != self.input_img.img.shape[2]:
+        raise RuntimeError("Images must be both RGB or RGBA.")
       likeness = np.linalg.norm(img.histogram.hist - self.input_img.histogram.hist)
       self.like_array.array[0][i] = img.name
       self.like_array.array[1][i] = img.get_class_id()
       self.like_array.array[2][i] = likeness
 
     self.like_array.sort_likeness()
-    print(self.like_array.array[2])
-    
-data = MyDataset()
-data.build_likeness_array()
+
+  def closest(self, k=5):
+    if self.like_array is None:
+      raise RuntimeError("Likeness array contains null values, build it first.")
+
+    k = min(k, self.like_array.length)
+    return [closest[:k] for closest in self.like_array.array]
