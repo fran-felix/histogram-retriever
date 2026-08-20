@@ -10,7 +10,7 @@ class MyImage:
 
     loaded = np.array(Image.open(self.path))
 
-    # check for greyscale
+    # Check for greyscale
     if loaded.ndim == 2:
       loaded = np.stack([loaded, loaded, loaded], axis=-1)
     if loaded.shape[-1] not in (3, 4):
