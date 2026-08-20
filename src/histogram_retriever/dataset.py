@@ -10,11 +10,10 @@ class LikenessArray:
 
 class MyDataset:
 
-  def __init__(self, like_array=None, path='/home/francisco/histogram-retriever/Vistex/', path_info='/home/francisco/histogram-retriever/info/info.txt'):
+  def __init__(self, like_array=None, path='/home/francisco/histogram-retriever/Vistex/'):
     self.path = path
-    self.path_info = path_info
 
-  def build_dataset(self):
+  def build_dataset(self, path_info='/home/francisco/histogram-retriever/info/info.txt'):
     files = [f for f in os.listdir(self.path) if f.endswith('png')]
     n = len(files)
 
@@ -26,7 +25,7 @@ class MyDataset:
 
       # Writes to info.txt all histograms and metadata to compare later
       # Some images are RGB and some are RGBA
-      with open(self.path_info, "a") as f:
+      with open(path_info, "a") as f:
         write = "N " + files[i] + "\nH\n"
         f.write(write)
 
