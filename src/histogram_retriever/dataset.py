@@ -10,7 +10,7 @@ class LikenessArray:
 
 class MyDataset:
 
-  def __init__(self, like_array=None, path='/home/francisco/histogram-retriever/Vistex/'):
+  def __init__(self, input_img=MyImage(), like_array=None, path='/home/francisco/histogram-retriever/Vistex/'):
     self.path = path
 
   def build_dataset(self, path_info='/home/francisco/histogram-retriever/info/info.txt'):
@@ -40,6 +40,12 @@ class MyDataset:
 
         f.write("\n")
 
+      # compare input_img to img
+      # add result to likeness array
+
+    # sort likeness array based on distance
+
+    # parar de preguiça e fazer uma função de leitura pro arquivo
 
 data = MyDataset()
 data.build_dataset()
