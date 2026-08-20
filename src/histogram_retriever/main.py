@@ -16,7 +16,6 @@ def tar() -> None:
 
 def main() -> None:
     img1 = myimage.MyImage()
-    img1.make_histogram()
 
 if __name__ == "__main__":
     main()

@@ -1,21 +1,31 @@
 import os
 from histogram_retriever.myimage import MyImage
+import numpy as np
 
+class LikenessArray:
+
+  def __init__(self, length, array=None):
+    self.length = length
+    self.array = np.array((self.length, 3)) # 3 dimensions: file name (0), class (1) and likeness (2)(distance)
 
 class MyDataset:
 
-  def __init__(self, path='/home/francisco/histogram-retriever/Vistex/', path_info='/home/francisco/histogram-retriever/info/info.txt'):
-    files = [f for f in os.listdir(path) if f.endswith('png')]
+  def __init__(self, like_array=None, path='/home/francisco/histogram-retriever/Vistex/', path_info='/home/francisco/histogram-retriever/info/info.txt'):
+    self.path = path
+    self.path_info = path_info
+
+    files = [f for f in os.listdir(self.path) if f.endswith('png')]
     n = len(files)
 
+    self.like_array = LikenessArray(n)
+
     for i in range(n):
-      path_img = os.path.join(path, files[i])
+      path_img = os.path.join(self.path, files[i])
       img = MyImage(name=files[i],path=path_img)
-      img.make_histogram()
 
       # Writes to info.txt all histograms and metadata to compare later
       # Some images are RGB and some are RGBA
-      with open(path_info, "a") as f:
+      with open(self.path_info, "a") as f:
         write = "N " + files[i] + "\nH\n"
         f.write(write)
 
@@ -25,7 +35,7 @@ class MyDataset:
 
         for ch_index, ch_name in enumerate(channels):
           f.write(f"{ch_name} ")
-          img.histogram[:,ch_index].tofile(f, " ", "%s")
+          img.histogram.hist[:,ch_index].tofile(f, " ", "%s")
           f.write("\n")
 
         f.write("\n")
