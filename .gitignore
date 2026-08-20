@@ -3,3 +3,4 @@ Vistex
 input
 info
 .env
+src/histogram_retriever/__pycache__
