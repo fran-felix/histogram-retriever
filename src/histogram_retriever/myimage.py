@@ -26,3 +26,7 @@ class MyImage:
     self.img = loaded
     self.histogram = Histogram(self.img)
     # self.hist_alt = 
+
+  def get_class_id(self) -> int:
+    class_code = self.name.split("_", 1)[0]
+    return int(class_code[1:])
