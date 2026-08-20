@@ -4,9 +4,9 @@ import numpy as np
 
 class Histogram:
   def __init__(self, img):
-    self.hist = np.zeros((256, img.shape[2]), dtype=np.uint8)
+    self.hist = np.zeros((256, img.shape[2]))
     for i in range(img.shape[2]):
-          self.hist[:,i], _ = np.histogram(img[:,:,i], bins=256, range=(0,255))
+          self.hist[:,i], _ = np.histogram(img[:,:,i], bins=256, range=(0,255), density=True)
 
 class MyImage:
 
