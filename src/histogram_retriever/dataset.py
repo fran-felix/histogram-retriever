@@ -22,6 +22,7 @@ class MyDataset:
     self.input_img = input_img
     self.path = path
     self.path_info = path_info
+    self.dataset_images = None
 
   def build_dataset(self):
     files = [f for f in os.listdir(self.path) if f.endswith('png')]
@@ -50,13 +51,16 @@ class MyDataset:
 
   def build_likeness_array(self):
     files = [f for f in os.listdir(self.path) if f.endswith('png')]
-    n = len(files)
+    if self.dataset_images is None:
+      self.dataset_images = [
+        MyImage(name=file_name, path=os.path.join(self.path, file_name))
+        for file_name in files
+      ]
+
+    n = len(self.dataset_images)
     self.like_array = LikenessArray(n)
 
-    for i in range(n):
-      path_img = os.path.join(self.path, files[i])
-      img = MyImage(name=files[i],path=path_img)
-
+    for i, img in enumerate(self.dataset_images):
       # Images must have same shape (RBG and RGB, RGBA and RGBA)
       if img.img.shape[2] != self.input_img.img.shape[2]:
         raise RuntimeError("Images must be both RGB or RGBA.")
@@ -65,7 +69,11 @@ class MyDataset:
       self.like_array.array[1][i] = img.get_class_id()
       self.like_array.array[2][i] = likeness
 
+      if img.name == self.input_img.name:
+        self.like_array.array[2][i] = np.inf
+
     self.like_array.sort_likeness()
+    print(self.like_array.array[2])
 
   def closest(self, k=5):
     if self.like_array is None:
