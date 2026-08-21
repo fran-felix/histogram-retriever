@@ -37,8 +37,6 @@ def validate(k=5, path_data='/home/francisco/histogram-retriever/Vistex/', img_m
 
 def main() -> None:
 
-    
-    
     print(f"RGB hit rate: {validate(k=5,img_mode='RGB')*100:.2f}%")
     print(f"Grayscale hit rate: {validate(k=5,img_mode='L')*100:.2f}%")
     print(f"HSV hit rate: {validate(k=5,img_mode='HSV')*100:.2f}%")
