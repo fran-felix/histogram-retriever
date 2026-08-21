@@ -18,11 +18,15 @@ class LikenessArray:
 
 class MyDataset:
 
-  def __init__(self, input_img=MyImage(), like_array=None, path='/home/francisco/histogram-retriever/Vistex/', path_info='/home/francisco/histogram-retriever/info/info.txt'):
+  def __init__(self, input_img=None, like_array=None, path='/home/francisco/histogram-retriever/Vistex/',
+               path_info='/home/francisco/histogram-retriever/info/info.txt', mode='RGB'):
+    if input_img is None:
+        input_img = MyImage(mode=mode)
     self.input_img = input_img
     self.path = path
     self.path_info = path_info
     self.dataset_images = None
+    self.mode = mode
 
   def build_dataset(self):
     files = [f for f in os.listdir(self.path) if f.endswith('png')]
@@ -30,7 +34,7 @@ class MyDataset:
 
     for i in range(n):
       path_img = os.path.join(self.path, files[i])
-      img = MyImage(name=files[i],path=path_img)
+      img = MyImage(name=files[i],path=path_img, mode=self.mode)
 
       # Writes to info.txt all histograms and metadata to compare later
       # Some images are RGB and some are RGBA
@@ -53,7 +57,7 @@ class MyDataset:
     files = [f for f in os.listdir(self.path) if f.endswith('png')]
     if self.dataset_images is None:
       self.dataset_images = [
-        MyImage(name=file_name, path=os.path.join(self.path, file_name))
+        MyImage(name=file_name, path=os.path.join(self.path, file_name), mode=self.mode)
         for file_name in files
       ]
 
@@ -73,7 +77,6 @@ class MyDataset:
         self.like_array.array[2][i] = np.inf
 
     self.like_array.sort_likeness()
-    print(self.like_array.array[2])
 
   def closest(self, k=5):
     if self.like_array is None:

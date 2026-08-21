@@ -11,11 +11,13 @@ class Histogram:
 class MyImage:
 
   def __init__(self, name="input.png", histogram=None, hist_alt=None, img=None, img_alt=None,
-               path="/home/francisco/histogram-retriever/input/input.png") -> None:
+               path="/home/francisco/histogram-retriever/input/input.png", mode='RGB') -> None:
     self.name = name
     self.path = path
 
-    loaded = np.array(Image.open(self.path))
+    image = Image.open(self.path)
+    image = image.convert(mode)
+    loaded = np.array(image)
 
     # Check for greyscale
     if loaded.ndim == 2:
